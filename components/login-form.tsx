@@ -41,7 +41,7 @@ export function LoginForm({
 
     try {
       await signInWithEmail(email, password);
-      router.push("/dashboard");
+      router.push("/tinylabs");
     } catch (err: any) {
       console.error(" Email login error:", err);
       setError(err.message || "Failed to login with email and password");
@@ -55,7 +55,7 @@ export function LoginForm({
     setError("");
     try {
       await signInWithGoogle();
-      router.push("/dashboard");
+      router.push("/tinylabs");
     } catch (err: any) {
       console.error(" Google login error:", err);
       setError(err.message || "Failed to login with Google");
@@ -69,7 +69,7 @@ export function LoginForm({
     setError("");
     try {
       await signInAsGuest();
-      router.push("/dashboard");
+      router.push("/tinylabs");
     } catch (err: any) {
       console.error(" Guest login error:", err);
       setError(err.message || "Failed to login as guest");

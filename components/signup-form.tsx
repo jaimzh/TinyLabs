@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/auth-context';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,37 +18,35 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Link from 'next/link';
+import Link from "next/link";
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   const { signUpWithEmail, signInWithGoogle } = useAuth();
   const router = useRouter();
 
-  
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
+    setError("");
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters');
+      setError("Password must be at least 8 characters");
       return;
     }
 
     if (!name.trim()) {
-      setError('Please enter your full name');
+      setError("Please enter your full name");
       return;
     }
 
@@ -56,38 +54,36 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
     try {
       await signUpWithEmail(email, password, name);
-      console.log(' Signup successful for:', name);
-      router.push('/dashboard');
+      console.log(" Signup successful for:", name);
+      router.push("/tinylabs");
     } catch (err: any) {
-      console.error(' Signup error:', err);
-      
+      console.error(" Signup error:", err);
 
-      if (err.code === 'auth/email-already-in-use') {
-        setError('This email is already registered');
-      } else if (err.code === 'auth/invalid-email') {
-        setError('Invalid email address');
-      } else if (err.code === 'auth/weak-password') {
-        setError('Password is too weak');
+      if (err.code === "auth/email-already-in-use") {
+        setError("This email is already registered");
+      } else if (err.code === "auth/invalid-email") {
+        setError("Invalid email address");
+      } else if (err.code === "auth/weak-password") {
+        setError("Password is too weak");
       } else {
-        setError(err.message || 'Failed to create account');
+        setError(err.message || "Failed to create account");
       }
     } finally {
       setLoading(false);
     }
   };
 
- 
   const handleGoogleSignup = async () => {
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await signInWithGoogle();
-      console.log('Google signup successful');
-      router.push('/dashboard');
+      console.log("Google signup successful");
+      router.push("/tinylabs");
     } catch (err: any) {
-      console.error(' Google signup error:', err);
-      setError(err.message || 'Failed to sign up with Google');
+      console.error(" Google signup error:", err);
+      setError(err.message || "Failed to sign up with Google");
     } finally {
       setLoading(false);
     }
@@ -163,15 +159,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
             {/* Error message */}
             {error && (
-              <div className="text-sm text-red-500 text-center">
-                {error}
-              </div>
+              <div className="text-sm text-red-500 text-center">{error}</div>
             )}
 
             <FieldGroup>
               <Field>
                 <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Creating account...' : 'Create Account'}
+                  {loading ? "Creating account..." : "Create Account"}
                 </Button>
                 <Button
                   variant="outline"
@@ -201,7 +195,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   Sign up with Google
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account?{' '}
+                  Already have an account?{" "}
                   <Link href="/login" className="text-primary hover:underline">
                     Sign in
                   </Link>
